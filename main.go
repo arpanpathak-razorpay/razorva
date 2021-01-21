@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/IBM/go-sdk-core/core"
@@ -8,17 +9,14 @@ import (
 	"github.com/watson-developer-cloud/go-sdk/v2/assistantv2"
 )
 
+const (
+	AssistantID = "1eddd8fa-59b6-454c-99c0-62f5789cf816"
+)
+
 func main() {
 	assistant := setupWatson()
-	fmt.Print(assistant.Version)
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-
-	r.Run(":5000")
+	testMessage(assistant)
+	handleRoutes(assistant)
 }
 
 func setupWatson() *assistantv2.AssistantV2 {
@@ -40,4 +38,50 @@ func setupWatson() *assistantv2.AssistantV2 {
 	assistant.SetServiceURL("https://api.eu-gb.assistant.watson.cloud.ibm.com/instances/9a057952-b757-4c75-9498-30b2ff47753b")
 
 	return assistant
+}
+
+func handleRoutes(assistant *assistantv2.AssistantV2) {
+
+	r := gin.Default()
+
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
+
+	r.Run(":5000")
+}
+
+func testMessage(assistant *assistantv2.AssistantV2) {
+
+	sessionID := createSession(assistant)
+	result, _, responseErr := assistant.Message(
+		&assistantv2.MessageOptions{
+			AssistantID: core.StringPtr(AssistantID),
+			SessionID:   sessionID,
+			Input: &assistantv2.MessageInput{
+				MessageType: core.StringPtr("text"),
+				Text:        core.StringPtr("What is the payment status of my payment id pay_12344"),
+			},
+		},
+	)
+	if responseErr != nil {
+		panic(responseErr)
+	}
+	b, _ := json.MarshalIndent(result, "", "  ")
+	fmt.Println(string(b))
+}
+
+func createSession(assistant *assistantv2.AssistantV2) *string {
+	result, _, responseErr := assistant.CreateSession(assistant.
+		NewCreateSessionOptions("1eddd8fa-59b6-454c-99c0-62f5789cf816"))
+	if responseErr != nil {
+		panic(responseErr)
+	}
+	// b, _ := json.MarshalIndent(result, "", "  ")
+	// fmt.Println(string(b))
+	// fmt.Println(response)
+
+	return result.SessionID
 }
