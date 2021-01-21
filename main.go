@@ -14,7 +14,7 @@ func main() {
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message": "Hi I'm RazorVa",
+			"message": "pong",
 		})
 	})
 
@@ -23,11 +23,11 @@ func main() {
 
 func setupWatson() *assistantv2.AssistantV2 {
 	authenticator := &core.IamAuthenticator{
-		ApiKey: "<api-key>",
+		ApiKey: "lveej99H9_azkg2S4Jk7JIoOH89-1FBck4oHdPTippsE",
 	}
-
+	version := "2020-09-24"
 	options := &assistantv2.AssistantV2Options{
-		Version:       "{version}",
+		Version:       &version,
 		Authenticator: authenticator,
 	}
 
