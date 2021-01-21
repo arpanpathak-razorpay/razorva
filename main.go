@@ -15,7 +15,7 @@ const (
 
 func main() {
 	assistant := watson.SetupWatson()
-	watson.SendMessage(assistant, "Fetch last 10 payments", "rzp_12324234")
+	watson.SendMessage(assistant, "What is the success rate of upi icici?", "rzp_12324234")
 	handleRoutes(assistant)
 }
 
