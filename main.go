@@ -11,6 +11,8 @@ import (
 
 const (
 	AssistantID = "1eddd8fa-59b6-454c-99c0-62f5789cf816"
+	ApiKey      = "lveej99H9_azkg2S4Jk7JIoOH89-1FBck4oHdPTippsE"
+	ServiceUrl  = "https://api.eu-gb.assistant.watson.cloud.ibm.com/instances/9a057952-b757-4c75-9498-30b2ff47753b"
 )
 
 func main() {
@@ -35,7 +37,7 @@ func setupWatson() *assistantv2.AssistantV2 {
 		panic(assistantErr)
 	}
 
-	assistant.SetServiceURL("https://api.eu-gb.assistant.watson.cloud.ibm.com/instances/9a057952-b757-4c75-9498-30b2ff47753b")
+	assistant.SetServiceURL(ServiceUrl)
 
 	return assistant
 }
@@ -62,7 +64,7 @@ func testMessage(assistant *assistantv2.AssistantV2) {
 			SessionID:   sessionID,
 			Input: &assistantv2.MessageInput{
 				MessageType: core.StringPtr("text"),
-				Text:        core.StringPtr("What is the payment status of my payment id pay_12344"),
+				Text:        core.StringPtr("Fetch last 10 payments"),
 			},
 		},
 	)
@@ -75,7 +77,7 @@ func testMessage(assistant *assistantv2.AssistantV2) {
 
 func createSession(assistant *assistantv2.AssistantV2) *string {
 	result, _, responseErr := assistant.CreateSession(assistant.
-		NewCreateSessionOptions("1eddd8fa-59b6-454c-99c0-62f5789cf816"))
+		NewCreateSessionOptions(AssistantID))
 	if responseErr != nil {
 		panic(responseErr)
 	}
