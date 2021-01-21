@@ -33,10 +33,26 @@ func PaymentStatusQuery(message string) string {
 		return "Hey hooman you forgot to give me your payment id"
 	}
 
+	if !isPaymentIdValid(message){
+		return "Hey! please enter a valid payment id"
+	}
+
 	reply, err := utils.SendGetRequest(IntentMap[AskingForPaymentStatus] + "pay_60095e759b9d2b38ef061d5a")
 
 	if err != nil {
 		panic(err)
 	}
 	return reply
+}
+
+
+func isPaymentIdValid(message string) bool {
+
+	lastIndex := strings.LastIndex(message,"pay_")
+
+	if (len(message) - lastIndex) == 23 {
+		return true
+	}
+
+	return false
 }
