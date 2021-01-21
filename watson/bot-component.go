@@ -9,7 +9,7 @@ import (
 )
 
 // SendMessage send message to Watson and get the intent
-func SendMessage(assistant *assistantv2.AssistantV2, message string, merchantId string) {
+func SendMessage(assistant *assistantv2.AssistantV2, message string, merchantId string) string {
 
 	// Get the
 	sessionID := GetSession(merchantId, assistant)
@@ -29,4 +29,5 @@ func SendMessage(assistant *assistantv2.AssistantV2, message string, merchantId 
 	}
 	b, _ := json.MarshalIndent(result, "", "  ")
 	fmt.Println(string(b))
+	return "ResponseString" //Change this
 }

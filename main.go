@@ -4,6 +4,7 @@ import (
 	"github.com/razorva/watson"
 
 	"github.com/gin-gonic/gin"
+	socket "github.com/razorva/socket"
 	"github.com/watson-developer-cloud/go-sdk/v2/assistantv2"
 )
 
@@ -15,8 +16,7 @@ const (
 
 func main() {
 	assistant := watson.SetupWatson()
-	watson.SendMessage(assistant, "What is the success rate of upi icici?", "rzp_12324234")
-	handleRoutes(assistant)
+	socket.InitializeAndListen(assistant)
 }
 
 func handleRoutes(assistant *assistantv2.AssistantV2) {
