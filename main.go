@@ -5,6 +5,7 @@ import (
 
 	"github.com/IBM/go-sdk-core/core"
 	"github.com/gin-gonic/gin"
+	socket "github.com/razorva/socket"
 	"github.com/watson-developer-cloud/go-sdk/v2/assistantv2"
 )
 
@@ -16,8 +17,7 @@ const (
 
 func main() {
 	assistant := watson.SetupWatson()
-	watson.SendMessage(assistant, "Fetch last 10 payments", "rzp_12324234")
-	handleRoutes(assistant)
+	socket.InitializeAndListen(assistant)
 }
 
 func setupWatson() *assistantv2.AssistantV2 {
