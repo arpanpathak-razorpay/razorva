@@ -33,10 +33,13 @@ func PaymentStatusQuery(message string) string {
 		return "Hey hooman you forgot to give me your payment id"
 	}
 
+<<<<<<< HEAD
 	if len(message) != 28 {
 		return "Hey! please enter a valid payment id"
 	}
 
+=======
+>>>>>>> parent of fa45251... add payment id check
 	reply, err := utils.SendGetRequest(IntentMap[AskingForPaymentStatus] + "pay_60095e759b9d2b38ef061d5a")
 
 	if err != nil {
