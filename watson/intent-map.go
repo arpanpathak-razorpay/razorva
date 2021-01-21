@@ -7,9 +7,10 @@ package watson
 // }
 type RazorpayAPI struct {
 	Method string `json:"method"` // Type of API method such as GET,POST,PUT,DELETE
-	Url string `json:"url"`
+	Url    string `json:"url"`
+	Body   string `json:"body"`
 }
 
-var IntentMap[String] string = {
-	"LastFewTransactions": "https://dummy"
+var IntentMap map[string]string = map[string]string{
+	"LastFewTransactions": "https://dummy",
 }

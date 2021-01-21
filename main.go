@@ -1,8 +1,7 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
+	"github.com/razorva/watson"
 
 	"github.com/IBM/go-sdk-core/core"
 	"github.com/gin-gonic/gin"
@@ -16,8 +15,8 @@ const (
 )
 
 func main() {
-	assistant := setupWatson()
-	testMessage(assistant)
+	assistant := watson.SetupWatson()
+	watson.SendMessage(assistant, "Fetch last 10 payments", "rzp_12324234")
 	handleRoutes(assistant)
 }
 
@@ -55,35 +54,35 @@ func handleRoutes(assistant *assistantv2.AssistantV2) {
 	r.Run(":5000")
 }
 
-func testMessage(assistant *assistantv2.AssistantV2) {
+// func testMessage(assistant *assistantv2.AssistantV2) {
 
-	sessionID := createSession(assistant)
-	result, _, responseErr := assistant.Message(
-		&assistantv2.MessageOptions{
-			AssistantID: core.StringPtr(AssistantID),
-			SessionID:   sessionID,
-			Input: &assistantv2.MessageInput{
-				MessageType: core.StringPtr("text"),
-				Text:        core.StringPtr("Fetch last 10 payments"),
-			},
-		},
-	)
-	if responseErr != nil {
-		panic(responseErr)
-	}
-	b, _ := json.MarshalIndent(result, "", "  ")
-	fmt.Println(string(b))
-}
+// 	sessionID := createSession(assistant)
+// 	result, _, responseErr := assistant.Message(
+// 		&assistantv2.MessageOptions{
+// 			AssistantID: core.StringPtr(AssistantID),
+// 			SessionID:   sessionID,
+// 			Input: &assistantv2.MessageInput{
+// 				MessageType: core.StringPtr("text"),
+// 				Text:        core.StringPtr("Fetch last 10 payments"),
+// 			},
+// 		},
+// 	)
+// 	if responseErr != nil {
+// 		panic(responseErr)
+// 	}
+// 	b, _ := json.MarshalIndent(result, "", "  ")
+// 	fmt.Println(string(b))
+// }
 
-func createSession(assistant *assistantv2.AssistantV2) *string {
-	result, _, responseErr := assistant.CreateSession(assistant.
-		NewCreateSessionOptions(AssistantID))
-	if responseErr != nil {
-		panic(responseErr)
-	}
-	// b, _ := json.MarshalIndent(result, "", "  ")
-	// fmt.Println(string(b))
-	// fmt.Println(response)
+// func createSession(assistant *assistantv2.AssistantV2) *string {
+// 	result, _, responseErr := assistant.CreateSession(assistant.
+// 		NewCreateSessionOptions(AssistantID))
+// 	if responseErr != nil {
+// 		panic(responseErr)
+// 	}
+// 	// b, _ := json.MarshalIndent(result, "", "  ")
+// 	// fmt.Println(string(b))
+// 	// fmt.Println(response)
 
-	return result.SessionID
-}
+// 	return result.SessionID
+// }
