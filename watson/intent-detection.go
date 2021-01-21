@@ -14,6 +14,7 @@ const (
 	AskingForPaymentStatus            = "AskingForPaymentStatus"
 	LastFewTransactions               = "LastFewTransactions"
 	GatewaySuccessRate                = "GatewaySuccessRate"
+	MerchantSuccessRate               = "MerchantSuccessRate"
 )
 
 // Process intent and return result
@@ -23,6 +24,8 @@ func ProcessIntent(intent string, merchantId string, message string, pageSize in
 		return PaymentStatusQuery(message)
 	case LastFewTransactions:
 		return FetchLastPayments(message, merchantId, pageSize)
+	case MerchantSuccessRate:
+		return FetchMerchantSuccessRate(merchantId)
 	default:
 		return "Pardon human I didn't understand your complex language. I'm still learning!"
 	}
@@ -61,3 +64,12 @@ func FetchLastPayments(message string, merchantId string, pageSize int) string {
 // func FetchSuccessRate(gateway string) string {
 
 // }
+
+func FetchMerchantSuccessRate(merchantId string) string {
+	reply, err := utils.SendGetRequest(IntentMap[MerchantSuccessRate] + merchantId)
+
+	if err != nil {
+		panic(err)
+	}
+	return fmt.Sprintf("Here is your success rate data merchant_id %s : \n %s", merchantId, reply)
+}
