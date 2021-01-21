@@ -1,10 +1,11 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/razorva/watson"
 
 	"github.com/gin-gonic/gin"
-	socket "github.com/razorva/socket"
 	"github.com/watson-developer-cloud/go-sdk/v2/assistantv2"
 )
 
@@ -16,7 +17,9 @@ const (
 
 func main() {
 	assistant := watson.SetupWatson()
-	socket.InitializeAndListen(assistant)
+	fmt.Println(watson.SendMessage(assistant, "what is the status of pay_2314314", "rzp2333"))
+	// socket.InitializeAndListen(assistant)
+	handleRoutes(assistant)
 }
 
 func handleRoutes(assistant *assistantv2.AssistantV2) {
@@ -25,7 +28,7 @@ func handleRoutes(assistant *assistantv2.AssistantV2) {
 
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message": "pong",
+			"message": "RazorBot is here to answer all your queries",
 		})
 	})
 

@@ -29,5 +29,9 @@ func SendMessage(assistant *assistantv2.AssistantV2, message string, merchantId 
 	}
 	b, _ := json.MarshalIndent(result, "", "  ")
 	fmt.Println(string(b))
-	return "ResponseString" //Change this
+
+	if len(result.Output.Intents) > 0 {
+		return ProcessIntent(*result.Output.Intents[0].Intent, merchantId, message)
+	}
+	return "Pardon human I didn't understand! I need some more training to address your query. Please forgive me for now!" //Change this
 }

@@ -11,6 +11,9 @@ type RazorpayAPI struct {
 	Body   string `json:"body"`
 }
 
+const ()
+
 var IntentMap map[string]string = map[string]string{
-	"LastFewTransactions": "https://dummy",
+	LastFewTransactions:    "https://dummy",
+	AskingForPaymentStatus: "https://zcp1h9zwwf.execute-api.ap-south-1.amazonaws.com/lab/payment-status?paymentId=",
 }
