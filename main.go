@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 
 	"github.com/gin-gonic/gin"
+	"github.com/razorva/socket"
 	"github.com/razorva/watson"
 	"github.com/watson-developer-cloud/go-sdk/v2/assistantv2"
 )
@@ -25,7 +26,8 @@ func main() {
 	assistant := watson.SetupWatson()
 	// fmt.Println(watson.SendMessage(assistant,"what is the status of pay_2314314","rzp2333"))
 	// socket.InitializeAndListen(assistant)
-	handleRoutes(assistant)
+	// handleRoutes(assistant)
+	socket.InitGoSf(assistant)
 }
 
 func handleRoutes(assistant *assistantv2.AssistantV2) {

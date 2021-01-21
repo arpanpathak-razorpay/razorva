@@ -1,0 +1,8 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
+<script>
+  var socket = io.connect('ws://localhost:8080', { transports: ['websocket'] });
+
+  socket.emit('receive', { text: 'Show me the status of payment pay_60095e759b9d2b38ef061d5z', guid: "v6r4luai4vfn0f7bi8afbd3" }, function(response) {
+    console.log(response);
+  });
+</script>
