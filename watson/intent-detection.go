@@ -20,6 +20,8 @@ func ProcessIntent(intent string, merchantId string, message string) string {
 	switch intent {
 	case AskingForPaymentStatus:
 		return PaymentStatusQuery(message)
+	case LastFewTransactions:
+		return FetchLastPayments(message, merchantId)
 	default:
 		return "Pardon human I didn't understand your complex language. I'm still learning!"
 	}
@@ -33,11 +35,21 @@ func PaymentStatusQuery(message string) string {
 		return "Hey hooman you forgot to give me your payment id"
 	}
 
-	if len(message) != 28 {
-		return "Hey! please enter a valid payment id"
-	}
+	// if len(message) != 28 {
+	// 	return "Hey! please enter a valid payment id"
+	// }
 
 	reply, err := utils.SendGetRequest(IntentMap[AskingForPaymentStatus] + "pay_60095e759b9d2b38ef061d5a")
+
+	if err != nil {
+		panic(err)
+	}
+	return reply
+}
+
+func FetchLastPayments(message string, merchantId string) string {
+
+	reply, err := utils.SendGetRequest(IntentMap[LastFewTransactions] + merchantId)
 
 	if err != nil {
 		panic(err)
