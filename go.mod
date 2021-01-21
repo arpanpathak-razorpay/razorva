@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/IBM/go-sdk-core v1.1.0
+	github.com/gin-gonic/gin v1.6.3
 	github.com/golang/protobuf v1.4.3 // indirect
 	github.com/googollee/go-socket.io v1.4.4
 	github.com/leodido/go-urn v1.2.1 // indirect
