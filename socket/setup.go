@@ -7,6 +7,7 @@ import (
 
 	socketio "github.com/googollee/go-socket.io"
 	"github.com/razorva/watson"
+	"github.com/rs/cors"
 	"github.com/watson-developer-cloud/go-sdk/v2/assistantv2"
 )
 
@@ -18,6 +19,12 @@ type Packet struct {
 
 func InitializeAndListen(assistant *assistantv2.AssistantV2) {
 
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte("{\"hello\": \"world\"}"))
+	})
+
 	server, _ := socketio.NewServer(nil)
 
 	fmt.Println("Starting...")
@@ -27,10 +34,10 @@ func InitializeAndListen(assistant *assistantv2.AssistantV2) {
 		return nil
 	})
 
-	listen(server, assistant)
+	listen(server, assistant, mux)
 }
 
-func listen(server *socketio.Server, assistant *assistantv2.AssistantV2) {
+func listen(server *socketio.Server, assistant *assistantv2.AssistantV2, mux *http.ServeMux) {
 
 	server.OnEvent("/", "send", func(s socketio.Conn, packet Packet) {
 		message := packet.msg
@@ -59,11 +66,18 @@ func listen(server *socketio.Server, assistant *assistantv2.AssistantV2) {
 	go server.Serve()
 	defer server.Close()
 
-	http.Handle("/socket.io/", server)
+	mux.Handle("/socket.io/", server)
+	//http.Handle("/socket.io/", server)
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost"},
+		AllowedMethods:   []string{"GET", "PUT", "OPTIONS", "POST", "DELETE"},
+		AllowCredentials: true,
+	})
+
+	handler := c.Handler(mux)
 
 	log.Println("Serving at localhost:8080...")
-	log.Fatal(http.ListenAndServe(":8080", nil))
-
+	log.Fatal(http.ListenAndServe(":8080", handler))
 }
 
 /*http.Handle("/socket.io/", server)

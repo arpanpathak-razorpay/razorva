@@ -3,9 +3,7 @@ package main
 import (
 	"github.com/razorva/watson"
 
-	"github.com/gin-gonic/gin"
 	socket "github.com/razorva/socket"
-	"github.com/watson-developer-cloud/go-sdk/v2/assistantv2"
 )
 
 const (
@@ -21,6 +19,7 @@ func main() {
 	// handleRoutes(assistant)
 }
 
+/*
 func handleRoutes(assistant *assistantv2.AssistantV2) {
 
 	r := gin.Default()
@@ -33,3 +32,4 @@ func handleRoutes(assistant *assistantv2.AssistantV2) {
 
 	r.Run(":5000")
 }
+*/
