@@ -33,7 +33,7 @@ func PaymentStatusQuery(message string) string {
 		return "Hey hooman you forgot to give me your payment id"
 	}
 
-	if !isPaymentIdValid(message){
+	if len(message) != 28 {
 		return "Hey! please enter a valid payment id"
 	}
 
@@ -43,16 +43,4 @@ func PaymentStatusQuery(message string) string {
 		panic(err)
 	}
 	return reply
-}
-
-
-func isPaymentIdValid(message string) bool {
-
-	lastIndex := strings.LastIndex(message,"pay_")
-
-	if (len(message) - lastIndex) == 23 {
-		return true
-	}
-
-	return false
 }
