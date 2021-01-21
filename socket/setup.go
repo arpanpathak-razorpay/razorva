@@ -2,11 +2,12 @@ package socket
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+
 	socketio "github.com/googollee/go-socket.io"
 	"github.com/razorva/watson"
 	"github.com/watson-developer-cloud/go-sdk/v2/assistantv2"
-	"log"
-	"net/http"
 )
 
 type Packet struct {
@@ -37,7 +38,7 @@ func listen(server *socketio.Server, assistant *assistantv2.AssistantV2) {
 		fmt.Println("received", message)
 
 		response := watson.SendMessage(assistant, message, packet.id)
-		s.Emit(message, response)
+		s.Emit("reply", response)
 	})
 
 	//close
