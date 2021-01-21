@@ -3,6 +3,7 @@ package watson
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 
 	"github.com/IBM/go-sdk-core/core"
 	"github.com/watson-developer-cloud/go-sdk/v2/assistantv2"
@@ -29,9 +30,21 @@ func SendMessage(assistant *assistantv2.AssistantV2, message string, merchantId 
 	}
 	b, _ := json.MarshalIndent(result, "", "  ")
 	fmt.Println(string(b))
+	pageSize := 5
 
+	// Detect page size from message
+	for _, entity := range result.Output.Entities {
+		if *entity.Entity == "PageSize" {
+			val, err := strconv.Atoi(*entity.Value)
+			if err != nil {
+				panic(err)
+			}
+			pageSize = val
+			break
+		}
+	}
 	if len(result.Output.Intents) > 0 {
-		return ProcessIntent(*result.Output.Intents[0].Intent, merchantId, message)
+		return ProcessIntent(*result.Output.Intents[0].Intent, merchantId, message, pageSize)
 	}
 	return "Pardon human I didn't understand! I need some more training to address your query. Please forgive me for now!" //Change this
 }

@@ -1,6 +1,7 @@
 package watson
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/razorva/utils"
@@ -16,12 +17,12 @@ const (
 )
 
 // Process intent and return result
-func ProcessIntent(intent string, merchantId string, message string) string {
+func ProcessIntent(intent string, merchantId string, message string, pageSize int) string {
 	switch intent {
 	case AskingForPaymentStatus:
 		return PaymentStatusQuery(message)
 	case LastFewTransactions:
-		return FetchLastPayments(message, merchantId)
+		return FetchLastPayments(message, merchantId, pageSize)
 	default:
 		return "Pardon human I didn't understand your complex language. I'm still learning!"
 	}
@@ -47,12 +48,16 @@ func PaymentStatusQuery(message string) string {
 	return reply
 }
 
-func FetchLastPayments(message string, merchantId string) string {
+func FetchLastPayments(message string, merchantId string, pageSize int) string {
 
 	reply, err := utils.SendGetRequest(IntentMap[LastFewTransactions] + merchantId)
 
 	if err != nil {
 		panic(err)
 	}
-	return reply
+	return fmt.Sprintf("Here are those last %d payments \n %s", pageSize, reply)
 }
+
+// func FetchSuccessRate(gateway string) string {
+
+// }
