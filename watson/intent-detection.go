@@ -44,7 +44,7 @@ func PaymentStatusQuery(message string) string {
 		return "Hey! please enter a valid payment id"
 	}
 
-	reply, err := utils.SendGetRequest(IntentMap[AskingForPaymentStatus] + "message")
+	reply, err := utils.SendGetRequest(IntentMap[AskingForPaymentStatus] + message)
 
 	if err != nil {
 		panic(err)
