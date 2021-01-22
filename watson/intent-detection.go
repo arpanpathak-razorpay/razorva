@@ -2,6 +2,7 @@ package watson
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/razorva/utils"
@@ -53,7 +54,8 @@ func PaymentStatusQuery(message string) string {
 
 func FetchLastPayments(message string, merchantId string, pageSize int) string {
 
-	reply, err := utils.SendGetRequest(IntentMap[LastFewTransactions] + merchantId)
+	pgNo := strconv.Itoa(pageSize)
+	reply, err := utils.SendGetRequest(IntentMap[LastFewTransactions] + merchantId + "&num=" + pgNo)
 
 	if err != nil {
 		panic(err)
