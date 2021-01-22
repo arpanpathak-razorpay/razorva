@@ -73,5 +73,6 @@ func FetchMerchantSuccessRate(merchantId string) string {
 	if err != nil {
 		panic(err)
 	}
-	return fmt.Sprintf("Here is your success rate data merchant_id %s : \n %s", merchantId, reply)
+
+	return reply
 }
